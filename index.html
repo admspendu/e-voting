@@ -279,7 +279,7 @@
                         <span class="text-sm text-blue-600 font-medium">Pemilih: <span id="active-voter-name" class="font-bold text-blue-800">Siswa</span></span>
                     </div>
                     <button onclick="toggleFullScreen()" class="text-gray-500 hover:text-gray-800 bg-gray-100 p-2 rounded-full" title="Mode Layar Penuh">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
                     </button>
                 </div>
             </header>
@@ -614,7 +614,7 @@
                         document.getElementById('setting-logo-url').value = res.url;
                         showToast("Logo berhasil diunggah!", "success");
                     } else {
-                        // FIX: Menampilkan pesan error asli dari backend agar mudah di-debug
+                        // Menampilkan pesan error asli dari backend agar mudah di-debug
                         showToast("Gagal: " + res.message, "error");
                         console.error("Upload Error:", res.message);
                     }
