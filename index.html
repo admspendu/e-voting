@@ -78,8 +78,8 @@
         <!-- VIEW 1: LANDING PAGE -->
         <section id="view-landing" class="absolute inset-0 flex flex-col items-center justify-center p-6 bg-gradient-to-br from-blue-50 to-indigo-100 fade-in overflow-y-auto z-10">
             <div class="text-center mb-10">
-                <div class="w-20 h-20 bg-blue-600 text-white rounded-2xl mx-auto flex items-center justify-center shadow-lg mb-6">
-                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                <div class="w-24 h-24 bg-white text-blue-600 rounded-3xl mx-auto flex items-center justify-center shadow-lg mb-6 dynamic-logo overflow-hidden border-2 border-white">
+                    <svg class="w-12 h-12 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 </div>
                 <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight" id="landing-school-name">Portal E-Voting</h1>
                 <p class="text-gray-600 mt-3 text-lg">Silakan pilih gerbang masuk aplikasi</p>
@@ -209,6 +209,12 @@
                             <input type="text" id="setting-sekolah" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                         </div>
                         <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Upload Logo Sekolah</label>
+                            <input type="file" id="setting-logo-file" accept="image/png, image/jpeg" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50" onchange="handleLogoUpload(this)">
+                            <input type="hidden" id="setting-logo-url">
+                            <p class="text-xs text-gray-500 mt-1">Logo otomatis diterapkan ke Halaman Depan, Login, dan Dashboard.</p>
+                        </div>
+                        <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Target Total Pemilih (Suara Masuk)</label>
                             <input type="number" id="setting-total-pemilih" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                             <p class="text-xs text-gray-500 mt-1">Digunakan untuk menghitung persentase (%) suara masuk secara akurat di Live Dashboard.</p>
@@ -245,8 +251,8 @@
                 <button onclick="switchView('view-landing')" class="absolute top-4 left-4 text-gray-400 hover:text-gray-800" title="Kembali ke Menu"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg></button>
                 
                 <div class="text-center mb-8">
-                    <div class="w-16 h-16 bg-gradient-to-tr from-green-400 to-green-600 text-white rounded-full mx-auto flex items-center justify-center shadow-lg mb-4">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
+                    <div class="w-20 h-20 bg-gray-50 rounded-full mx-auto flex items-center justify-center shadow-inner mb-4 dynamic-logo overflow-hidden border-2 border-gray-100">
+                        <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     </div>
                     <h2 class="text-3xl font-extrabold text-gray-900">Bilik Suara</h2>
                     <p class="text-gray-500 mt-2">Ketik atau Scan Kartu Pemilih</p>
@@ -292,6 +298,9 @@
                     <button onclick="switchView('view-landing')" class="bg-purple-600 p-2.5 rounded-xl hover:bg-purple-700 transition" title="Kembali">
                         <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                     </button>
+                    <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0 dynamic-logo">
+                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
                     <div>
                         <h1 class="text-2xl font-black tracking-wide text-white drop-shadow-md">LIVE QUICK COUNT</h1>
                         <p class="text-sm text-purple-300 font-semibold uppercase tracking-wider" id="dash-sekolah-name">Memuat Data...</p>
@@ -356,7 +365,7 @@
         /** ==========================================
          * 1. GLOBAL STATE & FETCH WRAPPER
          * ========================================== */
-        let APP_SETTINGS = { sekolah: "Memuat...", pengumuman: "Memuat...", total_pemilih: 0 };
+        let APP_SETTINGS = { sekolah: "Memuat...", pengumuman: "Memuat...", total_pemilih: 0, logo: "" };
         let CANDIDATES = [];
         let VOTERS = [];
         let activeVoterData = null; 
@@ -367,6 +376,12 @@
 
         // Fungsi fetch utama yang berkomunikasi dengan backend
         async function fetchAPI(action, payload = {}) {
+            if (APP_SCRIPT_URL.includes("YOUR_SCRIPT_ID")) {
+                hideLoading();
+                showModal("Setup Backend Belum Selesai", "Aplikasi tidak bisa memuat (Failed to fetch).\n\nAnda masih menggunakan Placeholder URL bawaan. Silakan ikuti PANDUAN DEPLOYMENT untuk meng-copy URL Web App dari Google Apps Script dan paste ke baris APP_SCRIPT_URL di dalam index.html ini.", null);
+                return new Promise(() => {}); // Menghentikan eksekusi agar tidak crash di console
+            }
+
             try {
                 // Gunakan text/plain untuk bypass preflight issues di GAS
                 const response = await fetch(APP_SCRIPT_URL, {
@@ -508,6 +523,8 @@
                     document.getElementById('setting-sekolah').value = APP_SETTINGS.sekolah || "";
                     document.getElementById('setting-pengumuman').value = APP_SETTINGS.pengumuman || "";
                     document.getElementById('setting-total-pemilih').value = APP_SETTINGS.total_pemilih || 0;
+                    document.getElementById('setting-logo-url').value = APP_SETTINGS.logo || "";
+                    updateLogoUI(APP_SETTINGS.logo);
                     
                     renderKandidatList();
                     renderVotersTable();
@@ -568,6 +585,44 @@
             });
         }
         function filterVoters() { renderVotersTable(document.getElementById('search-voter').value); }
+
+        function updateLogoUI(logoUrl) {
+            const logoElements = document.querySelectorAll('.dynamic-logo');
+            logoElements.forEach(el => {
+                if (logoUrl) {
+                    el.innerHTML = `<img src="${logoUrl}" class="w-full h-full object-contain bg-white" alt="Logo">`;
+                }
+            });
+        }
+
+        async function handleLogoUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            showLoading("Mengunggah Logo ke Server...");
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const base64Str = e.target.result.split(',')[1];
+                try {
+                    const res = await fetchAPI('upload_file', {
+                        filename: file.name,
+                        mimeType: file.type,
+                        data: base64Str
+                    });
+                    hideLoading();
+                    if (res.success) {
+                        document.getElementById('setting-logo-url').value = res.url;
+                        showToast("Logo berhasil diunggah!", "success");
+                    } else {
+                        showToast("Gagal mengunggah logo.", "error");
+                    }
+                } catch(err) {
+                    hideLoading();
+                    showToast("Koneksi bermasalah.", "error");
+                }
+            };
+            reader.readAsDataURL(file);
+        }
 
         function openFormTambahKandidat() {
             const formHtml = `
@@ -644,14 +699,18 @@
             const payload = {
                 sekolah: document.getElementById('setting-sekolah').value,
                 pengumuman: document.getElementById('setting-pengumuman').value,
-                total_pemilih: parseInt(document.getElementById('setting-total-pemilih').value) || 0
+                total_pemilih: parseInt(document.getElementById('setting-total-pemilih').value) || 0,
+                logo: document.getElementById('setting-logo-url').value
             };
             
             showLoading("Menyimpan...");
             try {
                 const res = await fetchAPI('admin_save_settings', payload);
                 hideLoading();
-                if(res.success) showToast("Pengaturan disimpan");
+                if(res.success) {
+                    showToast("Pengaturan disimpan");
+                    updateLogoUI(payload.logo);
+                }
             } catch(err) {
                 hideLoading(); showToast("Gagal menyimpan", "error");
             }
