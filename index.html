@@ -27,9 +27,6 @@
         .marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        .scan-line { width: 100%; height: 2px; background: #22c55e; position: absolute; top: 0; left: 0; box-shadow: 0 0 10px #22c55e; animation: scan 2s infinite linear; }
-        @keyframes scan { 0% { top: 0; } 50% { top: 100%; } 100% { top: 0; } }
-
         :fullscreen { background-color: white; }
         :-webkit-full-screen { background-color: white; }
         :-ms-fullscreen { background-color: white; }
@@ -37,7 +34,6 @@
 </head>
 <body class="text-gray-800 antialiased overflow-hidden">
 
-    <!-- OVERLAYS -->
     <div id="loading-overlay" class="hidden fixed inset-0 z-[9999] bg-gray-900 bg-opacity-75 flex flex-col items-center justify-center backdrop-blur-sm">
         <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mb-4"></div>
         <p id="loading-text" class="text-white font-semibold text-lg">Memproses data...</p>
@@ -66,13 +62,10 @@
                 <h3 id="form-modal-title" class="text-xl font-bold text-gray-800">Form</h3>
                 <button onclick="closeFormModal()" class="text-gray-400 hover:text-red-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
             </div>
-            <div class="p-6 overflow-y-auto" id="form-modal-body">
-                <!-- Injected via JS -->
-            </div>
+            <div class="p-6 overflow-y-auto" id="form-modal-body"></div>
         </div>
     </div>
 
-    <!-- APP ROOT -->
     <main id="app-root" class="h-screen w-full relative overflow-hidden bg-gray-100">
 
         <!-- VIEW 1: LANDING PAGE -->
@@ -88,12 +81,12 @@
                 <div onclick="switchView('view-admin-login')" class="bg-white rounded-2xl p-8 shadow-xl cursor-pointer hover:-translate-y-2 transition-all duration-300 border-t-4 border-blue-500 group">
                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg></div>
                     <h2 class="text-2xl font-bold text-gray-800 mb-2">Panel Admin</h2>
-                    <p class="text-gray-500">Pendaftaran pemilih on-the-spot dan cetak kartu.</p>
+                    <p class="text-gray-500">Pendaftaran pemilih on-the-spot dan manajamen kandidat.</p>
                 </div>
                 <div onclick="switchView('view-voter-login')" class="bg-white rounded-2xl p-8 shadow-xl cursor-pointer hover:-translate-y-2 transition-all duration-300 border-t-4 border-green-500 group">
                     <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
                     <h2 class="text-2xl font-bold text-gray-800 mb-2">Bilik Suara</h2>
-                    <p class="text-gray-500">Masuk menggunakan pemindai (scanner) kartu.</p>
+                    <p class="text-gray-500">Masuk menggunakan Token pemilih.</p>
                 </div>
                 <div onclick="switchView('view-dashboard')" class="bg-white rounded-2xl p-8 shadow-xl cursor-pointer hover:-translate-y-2 transition-all duration-300 border-t-4 border-purple-500 group">
                     <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 13v-1m4 1v-3m4 3V8M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg></div>
@@ -106,9 +99,7 @@
         <!-- VIEW 2: ADMIN LOGIN -->
         <section id="view-admin-login" class="hidden absolute inset-0 bg-gray-50 flex items-center justify-center p-4 z-10">
             <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md fade-in relative">
-                <button onclick="switchView('view-landing')" class="absolute top-4 left-4 text-gray-400 hover:text-gray-700">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                </button>
+                <button onclick="switchView('view-landing')" class="absolute top-4 left-4 text-gray-400 hover:text-gray-700"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg></button>
                 <div class="text-center mb-8 mt-2">
                     <h2 class="text-2xl font-bold text-gray-900">Login Panitia</h2>
                 </div>
@@ -137,7 +128,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg> Kandidat
                     </button>
                     <button onclick="switchAdminTab('tab-pemilih')" id="btn-tab-pemilih" class="w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Pemilih & Kartu
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Pemilih & Antrian
                     </button>
                     <button onclick="switchAdminTab('tab-pengaturan')" id="btn-tab-pengaturan" class="w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg> Pengaturan
@@ -164,15 +155,12 @@
                 <div id="tab-pemilih" class="admin-tab hidden fade-in">
                     <div class="flex justify-between items-center mb-6">
                         <div>
-                            <h3 class="text-2xl font-bold text-gray-800">Pendaftaran & Cetak Kartu</h3>
+                            <h3 class="text-2xl font-bold text-gray-800">Pendaftaran Pemilih</h3>
                             <p class="text-gray-500 text-sm mt-1">Total Terdaftar: <span id="admin-total-voters">0</span></p>
                         </div>
                         <div class="flex gap-2 flex-wrap">
                             <button onclick="openFormTambahPemilih()" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 flex items-center gap-2 text-sm font-medium">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Tambah Pemilih (On the Spot)
-                            </button>
-                            <button onclick="exportKartuPemilihPDF()" class="bg-purple-600 text-white px-4 py-2 rounded-lg shadow hover:bg-purple-700 flex items-center gap-2 text-sm font-medium">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg> Cetak Kartu Pemilih
                             </button>
                         </div>
                     </div>
@@ -190,8 +178,9 @@
                                     <tr class="text-gray-600 text-sm uppercase tracking-wider">
                                         <th class="p-4 font-semibold border-b">No</th>
                                         <th class="p-4 font-semibold border-b">Nama Pemilih</th>
-                                        <th class="p-4 font-semibold border-b text-center">Barcode/Token</th>
+                                        <th class="p-4 font-semibold border-b text-center">Token</th>
                                         <th class="p-4 font-semibold border-b text-center">Status</th>
+                                        <th class="p-4 font-semibold border-b text-center">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="admin-voters-tbody" class="divide-y divide-gray-100"></tbody>
@@ -255,11 +244,11 @@
                         <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     </div>
                     <h2 class="text-3xl font-extrabold text-gray-900">Bilik Suara</h2>
-                    <p class="text-gray-500 mt-2">Ketik atau Scan Kartu Pemilih</p>
+                    <p class="text-gray-500 mt-2">Ketik Token Pemilih</p>
                 </div>
 
                 <form id="voter-token-form">
-                    <input type="text" id="voter-token-input" maxlength="6" class="w-full px-6 py-4 text-center text-2xl font-bold tracking-[0.5em] rounded-xl border-2 border-gray-300 focus:border-green-500 outline-none uppercase mb-4" placeholder="Ketik/Scan..." autocomplete="off" autofocus>
+                    <input type="text" id="voter-token-input" maxlength="6" class="w-full px-6 py-4 text-center text-2xl font-bold tracking-[0.5em] rounded-xl border-2 border-gray-300 focus:border-green-500 outline-none uppercase mb-4" placeholder="Ketik Token..." autocomplete="off" autofocus>
                     <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-green-600 text-white font-bold py-4 rounded-xl shadow-lg transition-transform active:scale-95 text-lg">Masuk Pemilihan</button>
                 </form>
             </div>
@@ -279,7 +268,7 @@
                         <span class="text-sm text-blue-600 font-medium">Pemilih: <span id="active-voter-name" class="font-bold text-blue-800">Siswa</span></span>
                     </div>
                     <button onclick="toggleFullScreen()" class="text-gray-500 hover:text-gray-800 bg-gray-100 p-2 rounded-full" title="Mode Layar Penuh">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
                     </button>
                 </div>
             </header>
@@ -316,13 +305,12 @@
                         <p class="text-2xl font-bold text-yellow-400" id="dash-percentage">0%</p>
                     </div>
                     <button onclick="toggleFullScreen()" class="bg-gray-800 border border-gray-700 p-3 rounded-full hover:bg-gray-700 transition" title="Mode Layar Penuh">
-                        <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+                        <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
                     </button>
                 </div>
             </header>
 
             <div class="flex-1 flex flex-col lg:flex-row p-6 gap-6 overflow-hidden bg-gray-900">
-                <!-- CHART (KIRI) -->
                 <div class="w-full lg:w-7/12 bg-gray-800 rounded-3xl p-8 flex flex-col shadow-2xl border border-gray-700 relative">
                     <h2 class="text-xl font-bold text-gray-200 mb-6 flex items-center gap-2">
                         <span class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></span> Hasil Perolehan Suara
@@ -332,7 +320,6 @@
                     </div>
                 </div>
 
-                <!-- CAROUSEL (KANAN) -->
                 <div class="w-full lg:w-5/12 bg-gray-800 rounded-3xl relative flex flex-col overflow-hidden shadow-2xl border border-gray-700">
                     <div class="absolute top-0 left-0 w-full h-1 bg-gray-700">
                         <div id="carousel-progress" class="h-full bg-purple-500 transition-all ease-linear" style="width: 0%"></div>
@@ -352,7 +339,6 @@
         </section>
     </main>
 
-    <!-- JAVASCRIPT LOGIC -->
     <script>
         /**
          * ============================================================
@@ -360,11 +346,8 @@
          * Ganti URL di bawah dengan URL Web App Anda setelah deploy.
          * ============================================================
          */
-        const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqO4l7Pq9vvPRKkZ3XvPsm_gtCPKmbceGiUY8tzN4vrKLdvtR4EonVafo6CcsG9NuY/exec";
+        const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyHroMTKsQ3GOaGhVGCYl7he8WM-zixLZ-oprfYTD-p9KKW7fvKF6eKw309N6EmFRDA/exec";
         
-        /** ==========================================
-         * 1. GLOBAL STATE & FETCH WRAPPER
-         * ========================================== */
         let APP_SETTINGS = { sekolah: "Memuat...", pengumuman: "Memuat...", total_pemilih: 0, logo: "" };
         let CANDIDATES = [];
         let VOTERS = [];
@@ -374,49 +357,33 @@
         let dashboardUpdateInterval = null;
         let adminToken = sessionStorage.getItem('admin_session');
 
-        // Fungsi fetch utama yang berkomunikasi dengan backend
         async function fetchAPI(action, payload = {}) {
             if (APP_SCRIPT_URL.includes("YOUR_SCRIPT_ID")) {
                 hideLoading();
-                showModal("Setup Backend Belum Selesai", "Aplikasi tidak bisa memuat (Failed to fetch).\n\nAnda masih menggunakan Placeholder URL bawaan. Silakan ikuti PANDUAN DEPLOYMENT untuk meng-copy URL Web App dari Google Apps Script dan paste ke baris APP_SCRIPT_URL di dalam index.html ini.", null);
-                return new Promise(() => {}); // Menghentikan eksekusi agar tidak crash di console
+                showModal("Setup Backend Belum Selesai", "Aplikasi tidak bisa memuat.\n\nGanti APP_SCRIPT_URL di index.html dengan URL Web App Google Apps Script Anda.", null);
+                return new Promise(() => {}); 
             }
-
             try {
-                // Gunakan text/plain untuk bypass preflight issues di GAS
-                const response = await fetch(APP_SCRIPT_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: action, payload: payload })
-                });
+                const response = await fetch(APP_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: action, payload: payload }) });
                 return await response.json();
-            } catch (error) {
-                console.error("API Error:", error);
-                throw new Error("Gagal terhubung ke server.");
-            }
+            } catch (error) { throw new Error("Gagal terhubung ke server."); }
         }
 
-        /** ==========================================
-         * 2. UI & UTILITIES
-         * ========================================== */
         function showLoading(text="Memproses...") { document.getElementById('loading-text').innerText = text; document.getElementById('loading-overlay').classList.remove('hidden'); }
         function hideLoading() { setTimeout(() => { document.getElementById('loading-overlay').classList.add('hidden'); }, 300); }
 
         function showToast(message, type = "success") {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
+            const container = document.getElementById('toast-container'); const toast = document.createElement('div');
             let bg = type === 'error' ? "bg-red-600" : (type === 'info' ? "bg-blue-600" : "bg-green-600");
             toast.className = `${bg} text-white px-4 py-3 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full opacity-0 font-medium text-sm`;
-            toast.innerText = message;
-            container.appendChild(toast);
+            toast.innerText = message; container.appendChild(toast);
             requestAnimationFrame(() => toast.classList.remove('translate-x-full', 'opacity-0'));
             setTimeout(() => { toast.classList.add('opacity-0', 'translate-x-full'); setTimeout(() => toast.remove(), 300); }, 3000);
         }
 
         let confirmCallback = null;
         function showModal(title, message, callback) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-message').innerText = message;
+            document.getElementById('modal-title').innerText = title; document.getElementById('modal-message').innerText = message;
             document.getElementById('modal-overlay').classList.remove('hidden');
             setTimeout(() => document.getElementById('modal-content').classList.replace('scale-95', 'scale-100'), 10);
             confirmCallback = callback;
@@ -428,8 +395,7 @@
         document.getElementById('modal-confirm-btn').addEventListener('click', () => { if(confirmCallback) confirmCallback(); closeModal(); });
 
         function showFormModal(title, htmlContent) {
-            document.getElementById('form-modal-title').innerText = title;
-            document.getElementById('form-modal-body').innerHTML = htmlContent;
+            document.getElementById('form-modal-title').innerText = title; document.getElementById('form-modal-body').innerHTML = htmlContent;
             document.getElementById('form-modal-overlay').classList.remove('hidden');
             setTimeout(() => document.getElementById('form-modal-content').classList.replace('scale-95', 'scale-100'), 10);
         }
@@ -439,75 +405,46 @@
         }
 
         function toggleFullScreen() {
-            const doc = window.document;
-            const docEl = doc.documentElement;
+            const doc = window.document; const docEl = doc.documentElement;
             const requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
             const cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-
-            if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-                requestFullScreen.call(docEl).catch(err => showToast("Browser memblokir layar penuh", "error"));
-            } else {
-                cancelFullScreen.call(doc);
-            }
+            if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) { requestFullScreen.call(docEl).catch(err => showToast("Gagal layar penuh", "error")); } 
+            else { cancelFullScreen.call(doc); }
         }
 
-        /** ==========================================
-         * 3. NAVIGATION
-         * ========================================== */
         function switchView(viewId) {
             document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
             document.getElementById(viewId).classList.remove('hidden');
             document.getElementById('landing-school-name').innerText = APP_SETTINGS.sekolah || "Portal Pemilihan";
-            
             if (viewId === 'view-admin-panel') initAdminPanel();
             if (viewId === 'view-voter-cast') initVoterCast();
             if (viewId === 'view-dashboard') initDashboard();
             else stopDashboardLoop(); 
         }
 
-        /** ==========================================
-         * 4. ADMIN LOGIC
-         * ========================================== */
         document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const username = document.getElementById('admin-user').value;
-            const password = document.getElementById('admin-pass').value;
-            
+            const username = document.getElementById('admin-user').value; const password = document.getElementById('admin-pass').value;
             showLoading("Memverifikasi...");
             try {
                 const res = await fetchAPI('admin_login', { username, password });
                 hideLoading();
-                if (res.success) {
-                    sessionStorage.setItem('admin_session', res.session_token);
-                    adminToken = res.session_token;
-                    showToast("Login Berhasil");
-                    switchView('view-admin-panel');
-                } else {
-                    showToast(res.message, "error");
-                }
-            } catch (err) {
-                hideLoading();
-                showToast("Gagal terhubung ke server backend.", "error");
-            }
+                if (res.success) { sessionStorage.setItem('admin_session', res.session_token); adminToken = res.session_token; showToast("Login Berhasil"); switchView('view-admin-panel'); } 
+                else { showToast(res.message, "error"); }
+            } catch (err) { hideLoading(); showToast("Gagal terhubung ke server backend.", "error"); }
         });
 
         function doLogout() {
             showModal("Konfirmasi Logout", "Keluar dari Panel Admin?", () => {
-                sessionStorage.removeItem('admin_session');
-                adminToken = null;
-                document.getElementById('admin-user').value = '';
-                document.getElementById('admin-pass').value = '';
-                switchView('view-landing'); 
-                showToast("Berhasil logout", "info");
+                sessionStorage.removeItem('admin_session'); adminToken = null;
+                document.getElementById('admin-user').value = ''; document.getElementById('admin-pass').value = '';
+                switchView('view-landing'); showToast("Berhasil logout", "info");
             });
         }
 
         function switchAdminTab(tabId) {
-            document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
-            document.getElementById(tabId).classList.remove('hidden');
-            ['kandidat','pemilih','pengaturan'].forEach(id => {
-                document.getElementById(`btn-tab-${id}`).className = `w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg font-medium transition-colors ${tabId === 'tab-'+id ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'}`;
-            });
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden')); document.getElementById(tabId).classList.remove('hidden');
+            ['kandidat','pemilih','pengaturan'].forEach(id => { document.getElementById(`btn-tab-${id}`).className = `w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg font-medium transition-colors ${tabId === 'tab-'+id ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'}`; });
         }
 
         async function fetchAdminData() {
@@ -516,59 +453,42 @@
                 const res = await fetchAPI('admin_get_data', { token: adminToken });
                 hideLoading();
                 if (res.success) {
-                    CANDIDATES = res.candidates || [];
-                    VOTERS = res.voters || [];
-                    APP_SETTINGS = res.settings || APP_SETTINGS;
-                    
-                    document.getElementById('setting-sekolah').value = APP_SETTINGS.sekolah || "";
-                    document.getElementById('setting-pengumuman').value = APP_SETTINGS.pengumuman || "";
-                    document.getElementById('setting-total-pemilih').value = APP_SETTINGS.total_pemilih || 0;
-                    document.getElementById('setting-logo-url').value = APP_SETTINGS.logo || "";
-                    updateLogoUI(APP_SETTINGS.logo);
-                    
-                    renderKandidatList();
-                    renderVotersTable();
+                    CANDIDATES = res.candidates || []; VOTERS = res.voters || []; APP_SETTINGS = res.settings || APP_SETTINGS;
+                    document.getElementById('setting-sekolah').value = APP_SETTINGS.sekolah || ""; document.getElementById('setting-pengumuman').value = APP_SETTINGS.pengumuman || "";
+                    document.getElementById('setting-total-pemilih').value = APP_SETTINGS.total_pemilih || 0; document.getElementById('setting-logo-url').value = APP_SETTINGS.logo || "";
+                    updateLogoUI(APP_SETTINGS.logo); renderKandidatList(); renderVotersTable();
                 }
-            } catch (err) {
-                hideLoading();
-                showToast("Gagal memuat data dari server.", "error");
-            }
+            } catch (err) { hideLoading(); showToast("Gagal memuat data dari server.", "error"); }
         }
 
-        function initAdminPanel() {
-            if(!adminToken) {
-                showToast("Sesi habis, silakan login kembali", "error");
-                switchView('view-admin-login');
-                return;
-            }
-            fetchAdminData();
-        }
+        function initAdminPanel() { if(!adminToken) { showToast("Sesi habis", "error"); switchView('view-admin-login'); return; } fetchAdminData(); }
 
         function renderKandidatList() {
-            const kGrid = document.getElementById('admin-kandidat-list'); 
-            kGrid.innerHTML = '';
+            const kGrid = document.getElementById('admin-kandidat-list'); kGrid.innerHTML = '';
             if(CANDIDATES.length === 0) kGrid.innerHTML = `<p class="text-gray-500">Belum ada kandidat terdaftar.</p>`;
-            
             CANDIDATES.forEach(k => {
                 kGrid.innerHTML += `
                     <div class="bg-white rounded-xl shadow border border-gray-100 p-4 flex gap-4">
                         <div class="w-24 h-24 bg-gray-50 border rounded-lg overflow-hidden shrink-0 flex items-center justify-center p-1">
                             <img src="${k.foto}" class="w-full h-full object-contain" alt="Foto">
                         </div>
-                        <div class="flex-1 overflow-hidden">
-                            <div class="text-sm font-bold text-blue-600 mb-1">Kandidat No. ${k.no}</div>
-                            <h4 class="text-lg font-bold text-gray-800 truncate">${k.name}</h4>
-                            <p class="text-xs text-gray-500 mt-1 line-clamp-2">${k.visi}</p>
+                        <div class="flex-1 overflow-hidden flex flex-col justify-between">
+                            <div>
+                                <div class="text-sm font-bold text-blue-600 mb-1">Kandidat No. ${k.no}</div>
+                                <h4 class="text-lg font-bold text-gray-800 truncate">${k.name}</h4>
+                                <p class="text-xs text-gray-500 mt-1 line-clamp-2">${k.visi}</p>
+                            </div>
+                            <div class="mt-2 flex gap-2">
+                                <button onclick='openFormEditKandidat(${JSON.stringify(k).replace(/'/g, "&#39;")})' class="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded text-gray-700 font-medium">Edit</button>
+                                <button onclick="hapusKandidat(${k.rowIndex}, '${k.name}')" class="text-xs bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded text-red-600 font-medium">Hapus</button>
+                            </div>
                         </div>
                     </div>`;
             });
         }
 
         function renderVotersTable(filterText = "") {
-            const tbody = document.getElementById('admin-voters-tbody'); 
-            tbody.innerHTML = '';
-            
-            // Reverse so newest is on top
+            const tbody = document.getElementById('admin-voters-tbody'); tbody.innerHTML = '';
             const filtered = [...VOTERS].reverse().filter(v => v.name.toLowerCase().includes(filterText.toLowerCase()) || v.token.toLowerCase().includes(filterText.toLowerCase()));
             document.getElementById('admin-total-voters').innerText = VOTERS.length;
             
@@ -581,75 +501,39 @@
                         <td class="p-4 font-medium text-gray-800">${v.name}</td>
                         <td class="p-4 text-center"><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono font-bold tracking-widest">${v.token}</code></td>
                         <td class="p-4 text-center">${statusBadge}</td>
+                        <td class="p-4 text-center flex justify-center gap-2">
+                            <button onclick="openFormEditPemilih(${v.rowIndex}, '${v.name}')" class="text-blue-500 hover:text-blue-700 text-sm font-medium">Edit</button>
+                            <button onclick="hapusPemilih(${v.rowIndex}, '${v.name}')" class="text-red-500 hover:text-red-700 text-sm font-medium">Hapus</button>
+                        </td>
                     </tr>`;
             });
         }
         function filterVoters() { renderVotersTable(document.getElementById('search-voter').value); }
 
         function updateLogoUI(logoUrl) {
-            const logoElements = document.querySelectorAll('.dynamic-logo');
-            logoElements.forEach(el => {
-                if (logoUrl) {
-                    el.innerHTML = `<img src="${logoUrl}" class="w-full h-full object-contain bg-white" alt="Logo">`;
-                }
+            document.querySelectorAll('.dynamic-logo').forEach(el => {
+                if (logoUrl) el.innerHTML = `<img src="${logoUrl}" class="w-full h-full object-contain bg-white" alt="Logo">`;
             });
         }
 
         async function handleLogoUpload(input) {
-            const file = input.files[0];
-            if (!file) return;
-            
-            showLoading("Mengompres & Mengunggah Logo...");
+            const file = input.files[0]; if (!file) return;
+            showLoading("Mengunggah Logo...");
             const reader = new FileReader();
-            
             reader.onload = function(e) {
                 const img = new Image();
                 img.onload = async function() {
-                    // Fitur Kompresi Gambar: Memastikan ukuran aman sebelum dikirim ke Google Drive
-                    const canvas = document.createElement('canvas');
-                    const MAX_SIZE = 400; 
-                    let width = img.width;
-                    let height = img.height;
-                    
-                    if (width > height && width > MAX_SIZE) {
-                        height *= MAX_SIZE / width;
-                        width = MAX_SIZE;
-                    } else if (height > MAX_SIZE) {
-                        width *= MAX_SIZE / height;
-                        height = MAX_SIZE;
-                    }
-                    
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-                    
-                    const compressedDataUrl = canvas.toDataURL(file.type, 0.8);
-                    const base64Str = compressedDataUrl.split(',')[1];
-                    
+                    const canvas = document.createElement('canvas'); const MAX_SIZE = 400; let w = img.width, h = img.height;
+                    if (w > h && w > MAX_SIZE) { h *= MAX_SIZE / w; w = MAX_SIZE; } else if (h > MAX_SIZE) { w *= MAX_SIZE / h; h = MAX_SIZE; }
+                    canvas.width = w; canvas.height = h; canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                    const base64Str = canvas.toDataURL(file.type, 0.8).split(',')[1];
                     try {
-                        const res = await fetchAPI('upload_file', {
-                            filename: file.name,
-                            mimeType: file.type,
-                            data: base64Str
-                        });
+                        const res = await fetchAPI('upload_file', { filename: file.name, mimeType: file.type, data: base64Str });
                         hideLoading();
-                        if (res.success) {
-                            document.getElementById('setting-logo-url').value = res.url;
-                            showToast("Logo berhasil diunggah!", "success");
-                        } else {
-                            // Menampilkan pesan error asli dari backend agar mudah di-debug
-                            showToast("Gagal: " + res.message, "error");
-                            console.error("Upload Error:", res.message);
-                        }
-                    } catch(err) {
-                        hideLoading();
-                        showToast("Koneksi bermasalah.", "error");
-                    }
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
+                        if (res.success) { document.getElementById('setting-logo-url').value = res.url; showToast("Logo diunggah!"); } else { showToast("Gagal: " + res.message, "error"); }
+                    } catch(err) { hideLoading(); showToast("Koneksi bermasalah.", "error"); }
+                }; img.src = e.target.result;
+            }; reader.readAsDataURL(file);
         }
 
         function openFormTambahKandidat() {
@@ -665,212 +549,157 @@
                     <textarea id="f-misi" required class="w-full border p-2 rounded" rows="3"></textarea></div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Upload Foto Kandidat</label>
-                        <input type="file" id="f-foto-file" accept="image/png, image/jpeg" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50" onchange="handleFotoKandidatUpload(this)">
+                        <input type="file" accept="image/png, image/jpeg" required class="w-full px-4 py-2 border rounded-lg bg-gray-50" onchange="handleFotoKandidatUpload(this, 'f-foto-status', 'f-foto-url', 'btn-simpan-kandidat')">
                         <input type="hidden" id="f-foto-url">
-                        <p class="text-xs text-gray-500 mt-1" id="f-foto-status">Format: JPG/PNG. Foto akan dikompres otomatis.</p>
+                        <p class="text-xs text-gray-500 mt-1" id="f-foto-status">Format: JPG/PNG. Otomatis dikompres.</p>
                     </div>
                     <button type="submit" id="btn-simpan-kandidat" class="w-full bg-blue-600 text-white font-bold py-2 rounded mt-2 disabled:bg-gray-400">Simpan Kandidat</button>
                 </form>`;
             showFormModal("Tambah Kandidat Baru", formHtml);
         }
-        
-        async function handleFotoKandidatUpload(input) {
-            const file = input.files[0];
-            if (!file) return;
-            
-            const btnSimpan = document.getElementById('btn-simpan-kandidat');
-            const statusText = document.getElementById('f-foto-status');
-            
-            // Nonaktifkan tombol simpan agar tidak di-klik sebelum gambar selesai diunggah
-            btnSimpan.disabled = true;
-            statusText.innerText = "Sedang mengompres & mengunggah ke Drive...";
-            statusText.className = "text-xs text-blue-600 mt-1 font-bold animate-pulse";
+
+        async function handleFotoKandidatUpload(input, statusId, urlId, btnId) {
+            const file = input.files[0]; if (!file) return;
+            const btnSimpan = document.getElementById(btnId); const statusText = document.getElementById(statusId);
+            btnSimpan.disabled = true; statusText.innerText = "Sedang mengunggah..."; statusText.className = "text-xs text-blue-600 mt-1 font-bold animate-pulse";
             
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = new Image();
                 img.onload = async function() {
-                    const canvas = document.createElement('canvas');
-                    const MAX_SIZE = 600; // Resolusi foto kandidat lebih besar sedikit (600px)
-                    let width = img.width; let height = img.height;
-                    
-                    if (width > height && width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; } 
-                    else if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; }
-                    
-                    canvas.width = width; canvas.height = height;
-                    const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
-                    
+                    const canvas = document.createElement('canvas'); const MAX_SIZE = 600; let w = img.width, h = img.height;
+                    if (w > h && w > MAX_SIZE) { h *= MAX_SIZE / w; w = MAX_SIZE; } else if (h > MAX_SIZE) { w *= MAX_SIZE / h; h = MAX_SIZE; }
+                    canvas.width = w; canvas.height = h; canvas.getContext('2d').drawImage(img, 0, 0, w, h);
                     const base64Str = canvas.toDataURL(file.type, 0.8).split(',')[1];
-                    
                     try {
                         const res = await fetchAPI('upload_file', { filename: "Kandidat_" + file.name, mimeType: file.type, data: base64Str });
-                        if (res.success) {
-                            document.getElementById('f-foto-url').value = res.url;
-                            statusText.innerText = "✓ Foto berhasil diunggah dan tersimpan!";
-                            statusText.className = "text-xs text-green-600 mt-1 font-bold";
-                            btnSimpan.disabled = false; // Aktifkan tombol kembali
-                        } else {
-                            statusText.innerText = "X Gagal mengunggah foto: " + res.message;
-                            statusText.className = "text-xs text-red-600 mt-1 font-bold";
-                        }
-                    } catch(err) {
-                        statusText.innerText = "X Koneksi bermasalah saat mengunggah.";
-                        statusText.className = "text-xs text-red-600 mt-1 font-bold";
-                    }
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
+                        if (res.success) { document.getElementById(urlId).value = res.url; statusText.innerText = "✓ Foto berhasil diunggah!"; statusText.className = "text-xs text-green-600 mt-1 font-bold"; btnSimpan.disabled = false; } 
+                        else { statusText.innerText = "X Gagal: " + res.message; statusText.className = "text-xs text-red-600 mt-1 font-bold"; }
+                    } catch(err) { statusText.innerText = "X Koneksi error"; statusText.className = "text-xs text-red-600 mt-1 font-bold"; }
+                }; img.src = e.target.result;
+            }; reader.readAsDataURL(file);
         }
 
         async function submitKandidatBaru(e) {
-            e.preventDefault();
-            const urlFoto = document.getElementById('f-foto-url').value;
-            
-            // Validasi pencegahan jika upload foto belum tuntas
-            if(!urlFoto) {
-                return showToast("Tunggu hingga indikator foto menyatakan berhasil diunggah!", "error");
-            }
-
-            const payload = {
-                no: document.getElementById('f-no').value,
-                name: document.getElementById('f-nama').value,
-                visi: document.getElementById('f-visi').value,
-                misi: document.getElementById('f-misi').value,
-                foto: urlFoto
-            };
-            
-            showLoading("Menyimpan Kandidat...");
+            e.preventDefault(); const urlFoto = document.getElementById('f-foto-url').value;
+            if(!urlFoto) return showToast("Tunggu hingga indikator foto menyatakan berhasil diunggah!", "error");
+            showLoading("Menyimpan...");
             try {
-                const res = await fetchAPI('admin_add_kandidat', payload);
-                if(res.success) {
-                    closeFormModal();
-                    await fetchAdminData();
-                    showToast("Kandidat berhasil ditambahkan!");
-                }
-            } catch (err) {
-                hideLoading(); showToast("Gagal menyimpan data", "error");
-            }
+                const res = await fetchAPI('admin_add_kandidat', { no: document.getElementById('f-no').value, name: document.getElementById('f-nama').value, visi: document.getElementById('f-visi').value, misi: document.getElementById('f-misi').value, foto: urlFoto });
+                if(res.success) { closeFormModal(); await fetchAdminData(); showToast("Kandidat ditambahkan!"); }
+            } catch (err) { hideLoading(); showToast("Gagal menyimpan data", "error"); }
         }
 
-        // Pendaftaran On the Spot
+        function openFormEditKandidat(k) {
+            const formHtml = `
+                <form onsubmit="submitEditKandidat(event, ${k.rowIndex})" class="space-y-4">
+                    <div><label class="text-sm font-medium text-gray-700">Nomor Urut</label>
+                    <input type="number" id="e-no" required class="w-full border p-2 rounded" value="${k.no}"></div>
+                    <div><label class="text-sm font-medium text-gray-700">Nama Paslon</label>
+                    <input type="text" id="e-nama" required class="w-full border p-2 rounded" value="${k.name}"></div>
+                    <div><label class="text-sm font-medium text-gray-700">Visi</label>
+                    <textarea id="e-visi" required class="w-full border p-2 rounded" rows="2">${k.visi}</textarea></div>
+                    <div><label class="text-sm font-medium text-gray-700">Misi (Pisahkan dengan Enter)</label>
+                    <textarea id="e-misi" required class="w-full border p-2 rounded" rows="3">${k.misi}</textarea></div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ganti Foto (Kosongkan jika tidak diganti)</label>
+                        <input type="file" accept="image/png, image/jpeg" class="w-full px-4 py-2 border rounded-lg bg-gray-50" onchange="handleFotoKandidatUpload(this, 'e-foto-status', 'e-foto-url', 'btn-edit-kandidat')">
+                        <input type="hidden" id="e-foto-url" value="${k.foto}">
+                        <p class="text-xs text-gray-500 mt-1" id="e-foto-status">Format: JPG/PNG.</p>
+                    </div>
+                    <button type="submit" id="btn-edit-kandidat" class="w-full bg-blue-600 text-white font-bold py-2 rounded mt-2">Update Kandidat</button>
+                </form>`;
+            showFormModal("Edit Kandidat", formHtml);
+        }
+
+        async function submitEditKandidat(e, rowIndex) {
+            e.preventDefault();
+            showLoading("Mengupdate...");
+            try {
+                const res = await fetchAPI('admin_edit_kandidat', { rowIndex: rowIndex, no: document.getElementById('e-no').value, name: document.getElementById('e-nama').value, visi: document.getElementById('e-visi').value, misi: document.getElementById('e-misi').value, foto: document.getElementById('e-foto-url').value });
+                if(res.success) { closeFormModal(); await fetchAdminData(); showToast("Kandidat diupdate!"); }
+            } catch (err) { hideLoading(); showToast("Gagal update data", "error"); }
+        }
+
+        function hapusKandidat(rowIndex, name) {
+            showModal("Hapus Kandidat", `Yakin ingin menghapus kandidat ${name}?`, async () => {
+                showLoading("Menghapus...");
+                try {
+                    const res = await fetchAPI('admin_delete_kandidat', { rowIndex: rowIndex });
+                    if(res.success) { await fetchAdminData(); showToast("Kandidat dihapus!"); }
+                } catch (err) { hideLoading(); showToast("Gagal menghapus", "error"); }
+            });
+        }
+
         function openFormTambahPemilih() {
             const formHtml = `
                 <form onsubmit="submitPemilihBaru(event)" class="space-y-4">
-                    <p class="text-sm text-gray-600 mb-2">Sistem akan otomatis membuatkan kode Barcode/Token unik 6-digit.</p>
+                    <p class="text-sm text-gray-600 mb-2">Token unik akan digenerate otomatis.</p>
                     <div><label class="text-sm font-medium text-gray-700">Nama Pemilih</label>
-                    <input type="text" id="f-p-nama" required class="w-full border p-2 rounded focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Masukkan nama..."></div>
-                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded mt-2 shadow hover:bg-blue-700">Simpan Pendaftar</button>
+                    <input type="text" id="f-p-nama" required class="w-full border p-2 rounded outline-none" placeholder="Masukkan nama..."></div>
+                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded mt-2">Simpan Pemilih</button>
                 </form>`;
-            showFormModal("Pendaftaran Pemilih (On the Spot)", formHtml);
+            showFormModal("Pendaftaran Pemilih", formHtml);
         }
         
         async function submitPemilihBaru(e) {
             e.preventDefault();
             const tokenStr = Math.floor(100000 + Math.random() * 900000).toString();
-            const nameStr = document.getElementById('f-p-nama').value;
-            
-            showLoading("Menyimpan Pemilih...");
+            showLoading("Menyimpan...");
             try {
-                const res = await fetchAPI('admin_add_pemilih', { token: tokenStr, name: nameStr });
-                if (res.success) {
-                    closeFormModal();
-                    await fetchAdminData();
-                    showToast("Pemilih berhasil didaftarkan!", "success");
-                }
-            } catch(err) {
-                hideLoading(); showToast("Gagal mendaftar", "error");
-            }
+                const res = await fetchAPI('admin_add_pemilih', { token: tokenStr, name: document.getElementById('f-p-nama').value });
+                if (res.success) { closeFormModal(); await fetchAdminData(); showToast("Pemilih didaftarkan!", "success"); }
+            } catch(err) { hideLoading(); showToast("Gagal mendaftar", "error"); }
+        }
+
+        function openFormEditPemilih(rowIndex, currentName) {
+            const formHtml = `
+                <form onsubmit="submitEditPemilih(event, ${rowIndex})" class="space-y-4">
+                    <div><label class="text-sm font-medium text-gray-700">Nama Pemilih</label>
+                    <input type="text" id="e-p-nama" required class="w-full border p-2 rounded" value="${currentName}"></div>
+                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded mt-2">Update Pemilih</button>
+                </form>`;
+            showFormModal("Edit Pemilih", formHtml);
+        }
+
+        async function submitEditPemilih(e, rowIndex) {
+            e.preventDefault();
+            showLoading("Mengupdate...");
+            try {
+                const res = await fetchAPI('admin_edit_pemilih', { rowIndex: rowIndex, name: document.getElementById('e-p-nama').value });
+                if (res.success) { closeFormModal(); await fetchAdminData(); showToast("Pemilih diupdate!", "success"); }
+            } catch(err) { hideLoading(); showToast("Gagal update", "error"); }
+        }
+
+        function hapusPemilih(rowIndex, name) {
+            showModal("Hapus Pemilih", `Yakin menghapus ${name}?`, async () => {
+                showLoading("Menghapus...");
+                try {
+                    const res = await fetchAPI('admin_delete_pemilih', { rowIndex: rowIndex });
+                    if(res.success) { await fetchAdminData(); showToast("Pemilih dihapus!"); }
+                } catch (err) { hideLoading(); showToast("Gagal menghapus", "error"); }
+            });
         }
 
         async function saveSettings() {
-            const payload = {
-                sekolah: document.getElementById('setting-sekolah').value,
-                pengumuman: document.getElementById('setting-pengumuman').value,
-                total_pemilih: parseInt(document.getElementById('setting-total-pemilih').value) || 0,
-                logo: document.getElementById('setting-logo-url').value
-            };
-            
+            const payload = { sekolah: document.getElementById('setting-sekolah').value, pengumuman: document.getElementById('setting-pengumuman').value, total_pemilih: parseInt(document.getElementById('setting-total-pemilih').value) || 0, logo: document.getElementById('setting-logo-url').value };
             showLoading("Menyimpan...");
             try {
                 const res = await fetchAPI('admin_save_settings', payload);
                 hideLoading();
-                if(res.success) {
-                    showToast("Pengaturan disimpan");
-                    updateLogoUI(payload.logo);
-                }
-            } catch(err) {
-                hideLoading(); showToast("Gagal menyimpan", "error");
-            }
-        }
-
-        /** ==========================================
-         * EXPORT PDF (KARTU PEMILIH & LAPORAN)
-         * ========================================== */
-        function exportKartuPemilihPDF() {
-            showLoading("Menyiapkan Kartu Pemilih...");
-            setTimeout(() => {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-                
-                const votersToPrint = VOTERS.filter(v => v.status === "Belum");
-                if(votersToPrint.length === 0) {
-                    hideLoading();
-                    showToast("Tidak ada pendaftar baru yang perlu dicetak.", "error");
-                    return;
-                }
-
-                const startX = 15; const startY = 15;
-                const cardW = 85; const cardH = 50; 
-                const gapX = 10; const gapY = 5;
-
-                votersToPrint.forEach((v, index) => {
-                    if (index > 0 && index % 10 === 0) doc.addPage(); 
-                    
-                    const posOnPage = index % 10;
-                    const col = posOnPage % 2; 
-                    const row = Math.floor(posOnPage / 2); 
-                    
-                    const x = startX + (col * (cardW + gapX));
-                    const y = startY + (row * (cardH + gapY));
-                    
-                    doc.setDrawColor(0); doc.setLineWidth(0.3); doc.rect(x, y, cardW, cardH);
-                    doc.setFontSize(11); doc.setFont("helvetica", "bold");
-                    doc.text("KARTU PEMILIH", x + cardW/2, y + 8, { align: "center" });
-                    
-                    doc.setFontSize(9); doc.setFont("helvetica", "normal");
-                    doc.text(APP_SETTINGS.sekolah || "Sekolah", x + cardW/2, y + 13, { align: "center" });
-                    
-                    doc.setLineWidth(0.2);
-                    doc.line(x + 5, y + 16, x + cardW - 5, y + 16);
-                    
-                    doc.setFontSize(9); doc.text("Nama Pemilih:", x + 5, y + 23);
-                    doc.setFontSize(11); doc.setFont("helvetica", "bold");
-                    const safeName = v.name.length > 25 ? v.name.substring(0, 23) + "..." : v.name;
-                    doc.text(safeName, x + 5, y + 29);
-                    
-                    doc.setFontSize(9); doc.setFont("helvetica", "normal");
-                    doc.text("Gunakan Kode Barcode di bawah untuk login:", x + 5, y + 36);
-                    
-                    doc.setFontSize(18); doc.setFont("courier", "bold");
-                    doc.text(v.token, x + cardW/2, y + 45, { align: "center" });
-                });
-                
-                doc.save("Kartu_Pemilih_Tercetak.pdf");
-                hideLoading(); 
-                showToast(`${votersToPrint.length} Kartu berhasil diunduh untuk dicetak!`, "success");
-            }, 1000);
+                if(res.success) { showToast("Pengaturan disimpan"); updateLogoUI(payload.logo); }
+            } catch(err) { hideLoading(); showToast("Gagal menyimpan", "error"); }
         }
 
         function exportBeritaAcaraPDF() {
             if(CANDIDATES.length === 0) return showToast("Data kandidat kosong", "error");
-            showLoading("Membuat Berita Acara...");
+            showLoading("Membuat PDF...");
             setTimeout(() => {
                 const { jsPDF } = window.jspdf; const doc = new jsPDF();
                 doc.setFontSize(18); doc.text("BERITA ACARA HASIL PEMILIHAN", 105, 20, null, null, "center");
                 doc.setFontSize(12); doc.text(APP_SETTINGS.sekolah, 105, 28, null, null, "center"); doc.line(20, 32, 190, 32);
                 const totalSuara = CANDIDATES.reduce((s,c)=>s+(c.votes||0),0);
-                doc.setFontSize(11); doc.text(`Pada hari ini, telah dilaksanakan pemilihan dengan total suara masuk: ${totalSuara} suara.`, 20, 45); doc.text(`Berikut adalah rincian perolehan suara masing-masing kandidat:`, 20, 52);
+                doc.setFontSize(11); doc.text(`Pada hari ini, telah dilaksanakan pemilihan dengan total suara masuk: ${totalSuara} suara.`, 20, 45); doc.text(`Berikut rincian perolehan suara masing-masing kandidat:`, 20, 52);
                 doc.autoTable({ head: [["No Urut", "Nama Kandidat", "Perolehan Suara"]], body: CANDIDATES.map(c => [c.no, c.name, `${c.votes} Suara`]), startY: 60, theme: 'grid' });
                 const finalY = doc.lastAutoTable.finalY + 20;
                 doc.text("Mengetahui,", 140, finalY); doc.text("Ketua Panitia Pemilihan", 140, finalY + 5); doc.text("(___________________)", 140, finalY + 30);
@@ -878,46 +707,30 @@
             }, 1000);
         }
 
-        /** ==========================================
-         * 5. VOTER LOGIC (Bilik Suara)
-         * ========================================== */
         document.getElementById('voter-token-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const tokenInput = document.getElementById('voter-token-input').value.toUpperCase();
-            if(tokenInput.length < 6) return showToast("Barcode tidak valid", "error");
+            if(tokenInput.length < 6) return showToast("Token tidak valid", "error");
 
             showLoading("Memverifikasi...");
             try {
                 const res = await fetchAPI('voter_login', { token: tokenInput });
                 hideLoading();
                 if(res.success) {
-                    activeVoterData = res.voter;
-                    document.getElementById('voter-token-input').value = '';
-                    // Fetch kandidat agar up to date
+                    activeVoterData = res.voter; document.getElementById('voter-token-input').value = '';
                     const dashRes = await fetchAPI('get_dashboard_data');
-                    if(dashRes.success) {
-                        CANDIDATES = dashRes.candidates;
-                        APP_SETTINGS = dashRes.settings;
-                    }
-                    switchView('view-voter-cast'); 
-                    showToast(`Selamat datang, ${activeVoterData.name}`);
-                } else {
-                    showToast(res.message, "error");
-                }
-            } catch(err) {
-                hideLoading(); showToast("Koneksi server terputus", "error");
-            }
+                    if(dashRes.success) { CANDIDATES = dashRes.candidates; APP_SETTINGS = dashRes.settings; }
+                    switchView('view-voter-cast'); showToast(`Selamat datang, ${activeVoterData.name}`);
+                } else { showToast(res.message, "error"); }
+            } catch(err) { hideLoading(); showToast("Koneksi terputus", "error"); }
         });
 
         function initVoterCast() {
             document.getElementById('cast-sekolah-name').innerText = APP_SETTINGS.sekolah || "Pemilihan";
             document.getElementById('active-voter-name').innerText = activeVoterData.name;
-            const grid = document.getElementById('voter-candidates-grid'); 
-            grid.innerHTML = '';
+            const grid = document.getElementById('voter-candidates-grid'); grid.innerHTML = '';
             
-            if(CANDIDATES.length === 0) {
-                grid.innerHTML = "<p>Data kandidat belum tersedia.</p>"; return;
-            }
+            if(CANDIDATES.length === 0) { grid.innerHTML = "<p>Data kandidat belum tersedia.</p>"; return; }
 
             CANDIDATES.forEach(k => {
                 const misiList = (k.misi || "").split('\n').map(m => `<li>${m}</li>`).join('');
@@ -943,16 +756,10 @@
 
         function castVote(candidateId, candidateName) {
             showModal("Konfirmasi Pilihan", `Anda akan memberikan suara untuk:\n\n${candidateName}\n\nPilihan yang sudah dikirim tidak dapat diubah lagi. Yakin?`, async () => {
-                showLoading("Menyimpan Suara...");
+                showLoading("Menyimpan...");
                 try {
-                    const res = await fetchAPI('voter_cast', {
-                        candidateId: candidateId,
-                        token: activeVoterData.token,
-                        rowIndex: activeVoterData.rowIndex
-                    });
-                    
+                    const res = await fetchAPI('voter_cast', { candidateId: candidateId, token: activeVoterData.token, rowIndex: activeVoterData.rowIndex });
                     hideLoading();
-                    
                     if(res.success) {
                         activeVoterData = null; 
                         document.body.insertAdjacentHTML('beforeend', `
@@ -963,27 +770,17 @@
                             </div>
                         `);
                         setTimeout(() => { document.getElementById('success-screen').remove(); switchView('view-voter-login'); }, 2500);
-                    } else {
-                        showToast(res.message, "error");
-                    }
-                } catch(err) {
-                    hideLoading(); showToast("Koneksi gagal, suara belum tersimpan.", "error");
-                }
+                    } else { showToast(res.message, "error"); }
+                } catch(err) { hideLoading(); showToast("Koneksi gagal", "error"); }
             });
         }
 
-        /** ==========================================
-         * 6. DASHBOARD LOGIC (Live Data)
-         * ========================================== */
         let currentCarouselIndex = 0;
-        
         async function fetchDashboardData() {
             try {
                 const res = await fetchAPI('get_dashboard_data');
                 if(res.success) {
-                    CANDIDATES = res.candidates || [];
-                    APP_SETTINGS = res.settings || APP_SETTINGS;
-                    
+                    CANDIDATES = res.candidates || []; APP_SETTINGS = res.settings || APP_SETTINGS;
                     document.getElementById('dash-sekolah-name').innerText = APP_SETTINGS.sekolah || "Live Quick Count";
                     document.getElementById('dash-marquee-text').innerText = APP_SETTINGS.pengumuman || "";
                     
@@ -992,50 +789,30 @@
                     document.getElementById('dash-voted').innerText = candTotal;
                     document.getElementById('dash-total').innerText = finalTotal;
                     
-                    let pct = 0;
-                    if(finalTotal > 0) pct = ((candTotal / finalTotal) * 100).toFixed(1);
+                    let pct = 0; if(finalTotal > 0) pct = ((candTotal / finalTotal) * 100).toFixed(1);
                     document.getElementById('dash-percentage').innerText = pct + '%';
                     
                     updateChartData();
-                    
-                    // Render carousel first time if empty
-                    if(document.getElementById('dash-carousel-content').innerHTML.includes('Menunggu')) {
-                        currentCarouselIndex = 0;
-                        renderCarouselItem();
-                    }
+                    if(document.getElementById('dash-carousel-content').innerHTML.includes('Menunggu')) { currentCarouselIndex = 0; renderCarouselItem(); }
                 }
-            } catch(e) {
-                console.log("Dashboard update failed (retrying next loop)");
-            }
+            } catch(e) { console.log("Dashboard update failed"); }
         }
 
         function initDashboard() {
-            initChart();
-            fetchDashboardData(); // Initial load
-            
+            initChart(); fetchDashboardData(); 
             clearInterval(carouselInterval);
-            carouselInterval = setInterval(() => { 
-                if(CANDIDATES.length > 0) {
-                    currentCarouselIndex = (currentCarouselIndex + 1) % CANDIDATES.length; 
-                    renderCarouselItem(); 
-                }
-            }, 12000); 
+            carouselInterval = setInterval(() => { if(CANDIDATES.length > 0) { currentCarouselIndex = (currentCarouselIndex + 1) % CANDIDATES.length; renderCarouselItem(); } }, 12000); 
 
             clearInterval(dashboardUpdateInterval);
-            dashboardUpdateInterval = setInterval(() => {
-                fetchDashboardData();
-            }, 10000); // Tarik data dari server tiap 10 detik
+            // Polling interval diringankan menjadi 60000ms (1 Menit)
+            dashboardUpdateInterval = setInterval(() => { fetchDashboardData(); }, 60000); 
         }
 
-        function stopDashboardLoop() { 
-            clearInterval(carouselInterval); 
-            clearInterval(dashboardUpdateInterval); 
-        }
+        function stopDashboardLoop() { clearInterval(carouselInterval); clearInterval(dashboardUpdateInterval); }
 
         function renderCarouselItem() {
             if(CANDIDATES.length === 0) return;
-            const container = document.getElementById('dash-carousel-content'); 
-            const progress = document.getElementById('carousel-progress');
+            const container = document.getElementById('dash-carousel-content'); const progress = document.getElementById('carousel-progress');
             const cand = CANDIDATES[currentCarouselIndex];
             
             container.classList.remove('fade-in'); void container.offsetWidth; container.classList.add('fade-in');
@@ -1071,12 +848,7 @@
                 type: 'bar',
                 data: {
                     labels: [],
-                    datasets: [{
-                        label: 'Suara', data: [],
-                        backgroundColor: ['rgba(59, 130, 246, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(245, 158, 11, 0.8)'],
-                        borderColor: ['rgb(59, 130, 246)', 'rgb(16, 185, 129)', 'rgb(245, 158, 11)'],
-                        borderWidth: 2, borderRadius: 8
-                    }]
+                    datasets: [{ label: 'Suara', data: [], backgroundColor: ['rgba(59, 130, 246, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(245, 158, 11, 0.8)'], borderColor: ['rgb(59, 130, 246)', 'rgb(16, 185, 129)', 'rgb(245, 158, 11)'], borderWidth: 2, borderRadius: 8 }]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
